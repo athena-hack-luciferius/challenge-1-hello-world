@@ -1,18 +1,16 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom'
-import { push as Menu } from 'react-burger-menu';
 import { IconButton, Typography, Link as MuiLink, Tooltip } from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import Popup from './components/Popup';
-import './burger-menu.css';
 
 function Copyright() {
   return (
     <Typography variant="body1" color="text.secondary" align="center">
       {'Copyright © '}
-      <MuiLink color="inherit" href="https://github.com">
-        Your Website
+      <MuiLink color="inherit" href="https://twitter.com/FoobaFun">
+        Crypto Sketches
       </MuiLink>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -20,20 +18,11 @@ function Copyright() {
   );
 }
 
-const Layout = ({currentUser, signIn, signOut, clearMessage, message}) => {
+const Layout = ({currentUser, signIn, signOut, clearMessage, message, isParty}) => {
   return (
     <>
-      <div id="App">        
-          <Menu pageWrapId={ "page-wrapper" } outerContainerId={ "App" } push>
-            <Link className="menu-item" to="/">
-              Dashboard
-            </Link>
-
-            <Link className="menu-item" to="/example">
-              Example
-            </Link>
-          </Menu>
-          <main id="page-wrapper" className='flex flex-col justify-between h-full py-5'>
+      <div id="App">
+          <main id="page-wrapper" className='flex flex-col justify-between h-full py-5 text-center'>
             <Outlet/>
             <Copyright/>
           </main>
@@ -55,6 +44,7 @@ const Layout = ({currentUser, signIn, signOut, clearMessage, message}) => {
               <p>{message}</p>
             </>}
             handleClose={clearMessage}
+            isParty={isParty}
           />}
       </div>
     </>

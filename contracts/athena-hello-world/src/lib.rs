@@ -1,38 +1,28 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{env, near_bindgen, PanicOnDefault, AccountId};
+use near_sdk::{env, near_bindgen, PanicOnDefault};
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct Contract {
-    owner: AccountId
 }
 
 #[near_bindgen]
 impl Contract {
     #[init]
-    pub fn new(owner: AccountId) -> Self {
+    pub fn new() -> Self {
         Self {
-            owner,
         }
     }
 
-    //Just a sample method to play with. Can be deleted
-    #[payable]
-    pub fn sample_method(&mut self) {
-        let deposit = (env::attached_deposit() as f64)/(10u128.pow(24) as f64);
-        env::log_str(format!("Thanks for the {} NEAR.", deposit).as_str())
+    pub fn hello(&mut self, name: String) -> String {
+        format!("Hello {}!", name)
     }
     
-    /*
-     * This function is helpful for development.
-     * Here you can clear all states of the contract
-     * in order to delete the contract account.
-     * If the contracts state is to big, it is not possible
-     * to delete the account later.
-     */
-    pub fn clear(&mut self) {
-        assert_eq!(self.owner, env::predecessor_account_id(), "Only owner can clear the state.");
-        //clear all collections and maps here
+    #[payable]
+    pub fn donate(&mut self, name: String) -> String {
+        let deposit = (env::attached_deposit() as f64)/(10u128.pow(24) as f64);
+        env::log_str(format!("Thanks for the {} NEAR.", deposit).as_str());
+        format!("Hello {}!", name)
     }
 }
 
@@ -60,7 +50,7 @@ mod tests {
     }
 
     #[test]
-    fn sample_test() {
+    fn hello_test() {
         // Get Alice as an account ID
         let alice = AccountId::new_unchecked("alice1.testnet".to_string());
         // Set up the testing context and unit test environment
@@ -68,9 +58,9 @@ mod tests {
         testing_env!(context.build());
 
         // Set up contract object and call the new method
-        let mut contract = Contract::new(alice);
+        let mut contract = Contract::new();
         
         //test something with the contract
-        contract.clear();
+        assert_eq!(contract.hello("Cryptosketches".to_string()), "Hello Cryptosketches!".to_string());
     }
 }

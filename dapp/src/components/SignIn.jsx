@@ -6,7 +6,7 @@ export default function SignIn({signIn, version}) {
     <>
       <div className="my-4">
         <Typography variant="h4" component="h1" gutterBottom>
-          Title of Your App - {version}
+          Hello NEAR - {version}
         </Typography>
         <Button variant="outlined" size='large' onClick={signIn}>Log in</Button>
         <p>

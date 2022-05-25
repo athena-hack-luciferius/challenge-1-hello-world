@@ -30,10 +30,10 @@ async function initContracts() {
 
   const contract = await new nearAPI.Contract(
     walletConnection.account(),
-    "main.cryptosketches.testnet",
+    "athena_hello_world.cryptosketches.testnet",
     {
       viewMethods: [],
-      changeMethods: ['sample_method'],
+      changeMethods: ['hello'],
       sender: walletConnection.getAccountId(),
     }
   );

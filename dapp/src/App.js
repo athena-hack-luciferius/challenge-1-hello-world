@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import NotFound from './components/404.jsx';
 import Dashboard from './components/Dashboard.jsx';
-import Example from './components/Example.jsx';
 import SignIn from './components/SignIn.jsx';
 import Layout from './layout';
 import Big from 'big.js';
 import { Route, Routes } from 'react-router-dom'
 var version = require('../package.json').version;
 
-const BOATLOAD_OF_GAS = Big(3).times(10 ** 14).toFixed();
+const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
 
 const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransaction, error }) => {
   const [message, setMessage] = useState('');
+  const [isParty, setIsParty] = useState(false);
   
   useEffect(() => {
       if (error){
@@ -43,27 +43,20 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
       }
   }, [lastTransaction, error, currentUser, provider, contract.contractId]);
 
-  const onSampleMethod = () => {
-    contract.sample_method(
+  const onHello = async (e) => {
+    e.preventDefault();
+    const { fieldset, name_prompt } = e.target.elements;
+    const donate = e.nativeEvent.submitter.value === 'donate'
+    const attached = donate ? Big(1).times(10 ** 23).toFixed() : 0
+    message = await contract.hello(
       {
-        //add arguments here in the format
-        //<argument>: <value>
-      },
-      BOATLOAD_OF_GAS,
-      Big(1).times(10 ** 14).toFixed() //attached deposit in yoctoNEAR
-    ).then((_) => {
-      //this is only executed if there is 0 deposit - for demonstartion purpose it is 1 here
-    })
+        name: name_prompt.value
+      }
+    );
   }
   
   const signIn = () => {
-    wallet.requestSignIn(
-      {contractId: nearConfig.contractName, //contract requesting access 
-       methodNames: [contract.sample_method.name]}, //used methods
-      'NEAR Challenge #8 - DAO Dashboard', //optional name
-      null, //optional URL to redirect to if the sign in was successful
-      null //optional URL to redirect to if the sign in was NOT successful
-    );
+    wallet.requestSignIn(nearConfig.contractName);
   };
 
   const signOut = () => {
@@ -72,6 +65,7 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
   };
 
   const clearMessage = () => {
+    setIsParty(false);
     setMessage('');
   };
 
@@ -81,7 +75,7 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
   if(!currentUser){
     return (
       <Routes>
-        <Route path="/" element={<Layout currentUser={currentUser} signIn={signIn} signOut={signOut} clearMessage={clearMessage} message={message}/>}>
+        <Route path="/" element={<Layout currentUser={currentUser} signIn={signIn} signOut={signOut} clearMessage={clearMessage} message={message} isParty={isParty}/>}>
           <Route index element={<SignIn signIn={signIn} version={version} />}/>
           <Route path="*" element={<SignIn signIn={signIn} version={version} />}/>
         </Route>
@@ -91,9 +85,8 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
   
   return (
     <Routes>
-      <Route path="/" element={<Layout currentUser={currentUser} signIn={signIn} signOut={signOut} clearMessage={clearMessage} message={message}/>}>
-        <Route index element={<Dashboard version={version}/>}/>
-        <Route path="example" element={<Example onSampleMethod={onSampleMethod} />}/>
+      <Route path="/" element={<Layout currentUser={currentUser} signIn={signIn} signOut={signOut} clearMessage={clearMessage} message={message} isParty={isParty}/>}>
+        <Route index element={<Dashboard version={version} onHello={onHello} />}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>

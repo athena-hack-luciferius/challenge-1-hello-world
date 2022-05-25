@@ -8,6 +8,6 @@ overflow-checks = true
 
 [workspace]
 members = [
-  "main",
+  "athena-hello-world",
   # add additional contracts here
 ]
