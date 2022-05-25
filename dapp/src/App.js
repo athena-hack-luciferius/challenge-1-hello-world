@@ -36,7 +36,11 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
           message = Buffer.from(result.status.SuccessValue, "base64").toString();
           message = `<p class='my-1'>${message.replaceAll('"','')}</p>`
           setIsParty(true);
-          message = `${message}<p class='my-1 text-sm'>${result.receipts_outcome[0].outcome.logs[0]}</p>`;
+          message = `${message}
+                     <p class='my-1 text-sm'>
+                      ${result.receipts_outcome[0].outcome.logs[0]}<br/>
+                      You can see your transaction <a href="https://testnet.nearblocks.io/txns/${txHash}" target="_blank" rel="noopener noreferrer">here</a>.
+                     </p>`;
         }
         if(!message){
           //some default fallback
