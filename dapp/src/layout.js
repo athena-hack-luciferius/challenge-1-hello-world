@@ -22,7 +22,7 @@ const Layout = ({currentUser, signIn, signOut, clearMessage, message, isParty}) 
   return (
     <>
       <div id="App">
-          <main id="page-wrapper" className='flex flex-col justify-between h-full py-5 text-center'>
+          <main id="page-wrapper" className='flex flex-col justify-between h-full p-5 text-center max-w-4xl'>
             <Outlet/>
             <Copyright/>
           </main>
@@ -40,8 +40,8 @@ const Layout = ({currentUser, signIn, signOut, clearMessage, message, isParty}) 
           }        
           {message && <Popup
             content={<>
-              <b>A message for you</b>
-              <p>{message}</p>
+              <Typography variant="h6" component="p" className='my-2'>Information</Typography>
+              <div dangerouslySetInnerHTML={{__html: `${message}`}}/>
             </>}
             handleClose={clearMessage}
             isParty={isParty}

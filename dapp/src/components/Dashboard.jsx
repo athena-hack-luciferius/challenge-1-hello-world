@@ -16,10 +16,10 @@ const Dashboard = ({version, onHello, processing}) => {
               You can either say hello with or without attached NEAR. Without attached NEAR there is no
               confirmation necessary. When you attache some NEAR you need to confirm the called function.
             </Typography>
-            <Box component="form" onSubmit={onHello}>
+            <Box component="form" onSubmit={onHello} className="items-center align-middle">
               <TextField id="name_prompt" label="Your Name" variant="outlined" className="my-4 self-center"
                           required autoFocus disabled={processing}/>
-              <div className='flex flex-row my-4 self-center'>
+              <div className='flex flex-row justify-center my-4 self-center'>
                 <Tooltip title="Without attached NEAR." arrow className='mx-4'>
                   <Button size='large' className="self-center" variant="outlined" value="hello"
                           type="submit">

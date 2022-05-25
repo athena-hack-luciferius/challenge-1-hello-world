@@ -33,15 +33,14 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
         if(receiver === contract.contractId && method === "donate" &&
            result.status.SuccessValue){
           //retrieve messages based on transaction details
-          let message = Buffer.from(result.status.SuccessValue, "base64").toString();
-          message = message.replace('"','')
+          message = Buffer.from(result.status.SuccessValue, "base64").toString();
+          message = `<p class='my-1'>${message.replaceAll('"','')}</p>`
           setIsParty(true);
-          setMessage(message);
-          //message += '</br>'+result.receipts_outcome[0].outcome.logs.pop();
+          message = `${message}<p class='my-1 text-sm'>${result.receipts_outcome[0].outcome.logs[0]}</p>`;
         }
         if(!message){
           //some default fallback
-          message = result.status.SuccessValue ? "The transaction was successfull" : "The transaction failed";
+          message = result.status.SuccessValue ? "The transaction was successfuller" : "The transaction failed";
         }
         if(message){
           setMessage(message);
@@ -73,7 +72,7 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
 
       setProcessing(false);
       setIsParty(true);
-      setMessage(message);
+      setMessage(message.replaceAll('"',''));
       name_prompt.value = "";
       name_prompt.focus();
     }

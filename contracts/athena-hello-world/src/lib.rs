@@ -58,7 +58,7 @@ mod tests {
         testing_env!(context.build());
 
         // Set up contract object and call the new method
-        let mut contract = Contract::new();
+        let contract = Contract::new();
         
         //test something with the contract
         assert_eq!(contract.hello("Cryptosketches".to_string()), "Hello Cryptosketches!".to_string());
