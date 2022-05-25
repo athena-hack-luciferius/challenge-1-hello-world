@@ -14,10 +14,10 @@ impl Contract {
         }
     }
 
-    pub fn hello(&mut self, name: String) -> String {
+    pub fn hello(&self, name: String) -> String {
         format!("Hello {}!", name)
     }
-    
+
     #[payable]
     pub fn donate(&mut self, name: String) -> String {
         let deposit = (env::attached_deposit() as f64)/(10u128.pow(24) as f64);

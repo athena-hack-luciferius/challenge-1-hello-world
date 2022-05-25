@@ -32,8 +32,8 @@ async function initContracts() {
     walletConnection.account(),
     "athena_hello_world.cryptosketches.testnet",
     {
-      viewMethods: [],
-      changeMethods: ['hello'],
+      viewMethods: ['hello'],
+      changeMethods: ['donate'],
       sender: walletConnection.getAccountId(),
     }
   );

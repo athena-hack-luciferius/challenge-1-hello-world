@@ -3,15 +3,16 @@ import NotFound from './components/404.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import SignIn from './components/SignIn.jsx';
 import Layout from './layout';
-//import Big from 'big.js';
+import Big from 'big.js';
 import { Route, Routes } from 'react-router-dom'
 var version = require('../package.json').version;
 
-//const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
+const BOATLOAD_OF_GAS = Big(3).times(10 ** 14).toFixed();
 
 const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransaction, error }) => {
   const [message, setMessage] = useState('');
   const [isParty, setIsParty] = useState(false);
+  const [processing, setProcessing] = useState(false);
   
   useEffect(() => {
       if (error){
@@ -29,13 +30,18 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
         const method = result.transaction.actions[0].FunctionCall.method_name;
         let message;
 
-        if(receiver === contract.contractId && method === "sample_method"){
+        if(receiver === contract.contractId && method === "donate" &&
+           result.status.SuccessValue){
           //retrieve messages based on transaction details
-          message = result.receipts_outcome[0].outcome.logs.pop();
+          let message = Buffer.from(result.status.SuccessValue, "base64").toString();
+          message = message.replace('"','')
+          setIsParty(true);
+          setMessage(message);
+          //message += '</br>'+result.receipts_outcome[0].outcome.logs.pop();
         }
         if(!message){
           //some default fallback
-          message = "The transaction was successfull";
+          message = result.status.SuccessValue ? "The transaction was successfull" : "The transaction failed";
         }
         if(message){
           setMessage(message);
@@ -45,18 +51,42 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
 
   const onHello = async (e) => {
     e.preventDefault();
-    const { /*fieldset,*/ name_prompt } = e.target.elements;
-    //const donate = e.nativeEvent.submitter.value === 'donate'
-    //const attached = donate ? Big(1).times(10 ** 23).toFixed() : 0
-    await contract.hello(
-      {
-        name: name_prompt.value
-      }
-    );
+    const { name_prompt } = e.target.elements;
+    const donate = e.nativeEvent.submitter.value === 'donate'
+    if(donate){
+      const attached = Big(1).times(10 ** 23).toFixed()
+      contract.donate(
+        {
+          name: name_prompt.value
+        },
+        BOATLOAD_OF_GAS,
+        attached
+      );
+    }
+    else{
+      setProcessing(true);
+      const message = await contract.hello(
+        {
+          name: name_prompt.value
+        }
+      );
+
+      setProcessing(false);
+      setIsParty(true);
+      setMessage(message);
+      name_prompt.value = "";
+      name_prompt.focus();
+    }
   }
   
   const signIn = () => {
-    wallet.requestSignIn(nearConfig.contractName);
+    wallet.requestSignIn(
+      {contractId: nearConfig.contractName, //contract requesting access 
+       methodNames: [contract.hello.name]}, //used methods
+      'Athena Challenge #1 - Hello NEAR', //optional name
+      null, //optional URL to redirect to if the sign in was successful
+      null //optional URL to redirect to if the sign in was NOT successful
+    );
   };
 
   const signOut = () => {
@@ -86,7 +116,7 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
   return (
     <Routes>
       <Route path="/" element={<Layout currentUser={currentUser} signIn={signIn} signOut={signOut} clearMessage={clearMessage} message={message} isParty={isParty}/>}>
-        <Route index element={<Dashboard version={version} onHello={onHello} />}/>
+        <Route index element={<Dashboard version={version} onHello={onHello} processing={processing} />}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Button, Tooltip, TextField, Box } from '@mui/material';
 
-const Dashboard = ({version, onHello}) => {
+const Dashboard = ({version, onHello, processing}) => {
 
   return <>
           <div className="my-4 flex flex-col">
@@ -18,7 +18,7 @@ const Dashboard = ({version, onHello}) => {
             </Typography>
             <Box component="form" onSubmit={onHello}>
               <TextField id="name_prompt" label="Your Name" variant="outlined" className="my-4 self-center"
-                          required autoFocus/>
+                          required autoFocus disabled={processing}/>
               <div className='flex flex-row my-4 self-center'>
                 <Tooltip title="Without attached NEAR." arrow className='mx-4'>
                   <Button size='large' className="self-center" variant="outlined" value="hello"
