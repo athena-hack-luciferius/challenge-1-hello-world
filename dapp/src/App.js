@@ -3,11 +3,11 @@ import NotFound from './components/404.jsx';
 import Dashboard from './components/Dashboard.jsx';
 import SignIn from './components/SignIn.jsx';
 import Layout from './layout';
-import Big from 'big.js';
+//import Big from 'big.js';
 import { Route, Routes } from 'react-router-dom'
 var version = require('../package.json').version;
 
-const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
+//const BOATLOAD_OF_GAS = Big(3).times(10 ** 13).toFixed();
 
 const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransaction, error }) => {
   const [message, setMessage] = useState('');
@@ -45,10 +45,10 @@ const App = ({ contract, currentUser, nearConfig, wallet, provider, lastTransact
 
   const onHello = async (e) => {
     e.preventDefault();
-    const { fieldset, name_prompt } = e.target.elements;
-    const donate = e.nativeEvent.submitter.value === 'donate'
-    const attached = donate ? Big(1).times(10 ** 23).toFixed() : 0
-    message = await contract.hello(
+    const { /*fieldset,*/ name_prompt } = e.target.elements;
+    //const donate = e.nativeEvent.submitter.value === 'donate'
+    //const attached = donate ? Big(1).times(10 ** 23).toFixed() : 0
+    await contract.hello(
       {
         name: name_prompt.value
       }
