@@ -21,6 +21,7 @@ function Copyright() {
 const Layout = ({currentUser, signIn, signOut, clearMessage, message, isParty}) => {
   return (
     <>
+      <div class="bg-image"/>
       <div id="App">
           <main id="page-wrapper" className='flex flex-col justify-between h-full p-5 text-center max-w-4xl'>
             <Outlet/>

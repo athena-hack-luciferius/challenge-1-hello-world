@@ -25,3 +25,16 @@ body {
   height: 100%;
   width: 100%;
 }
+
+.bg-image {
+  background-image: url('https://cdn.pixabay.com/photo/2016/12/18/21/51/bokeh-1916806_960_720.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  opacity: 0.25;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  position: fixed;
+  top:0;
+}
