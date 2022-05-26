@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/challenge-1-hello-world/static/css/main.957c39f3.css",
-    "main.js": "/challenge-1-hello-world/static/js/main.f599e150.js",
+    "main.css": "/challenge-1-hello-world/static/css/main.a7090bdb.css",
+    "main.js": "/challenge-1-hello-world/static/js/main.25bf4be4.js",
     "static/js/787.03770da1.chunk.js": "/challenge-1-hello-world/static/js/787.03770da1.chunk.js",
     "static/media/404.jpg": "/challenge-1-hello-world/static/media/404.6fa35088bd569d4c3d4c.jpg",
     "index.html": "/challenge-1-hello-world/index.html",
-    "main.957c39f3.css.map": "/challenge-1-hello-world/static/css/main.957c39f3.css.map",
-    "main.f599e150.js.map": "/challenge-1-hello-world/static/js/main.f599e150.js.map",
+    "main.a7090bdb.css.map": "/challenge-1-hello-world/static/css/main.a7090bdb.css.map",
+    "main.25bf4be4.js.map": "/challenge-1-hello-world/static/js/main.25bf4be4.js.map",
     "787.03770da1.chunk.js.map": "/challenge-1-hello-world/static/js/787.03770da1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.957c39f3.css",
-    "static/js/main.f599e150.js"
+    "static/css/main.a7090bdb.css",
+    "static/js/main.25bf4be4.js"
   ]
 }
